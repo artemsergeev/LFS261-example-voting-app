@@ -18,11 +18,11 @@ pipeline {
           sh 'mvn compile'
         }
           }
-        }
+      }
       stage('test') {
         when {
         changeset '**/worker/**'
-      }
+        }
 
         agent {
             docker {
@@ -42,7 +42,7 @@ pipeline {
           when {
         branch 'master'
         changeset '**/worker/**'
-      }
+          }
 
       agent {
             docker {
@@ -58,13 +58,9 @@ pipeline {
           archiveArtifacts artifacts: '**/target/*.jar', fingerprint:  true
         }
       }
-        }
+      }
       stage('docker-package') {
         agent any
-        when{
-          changeset "**worker**"
-          branch 'master'
-        }
         steps {
           echo 'Packaging worker app with docker'
           script {
@@ -77,7 +73,7 @@ pipeline {
     }
     post {
         always {
-            echo 'the job is complete'
+      echo 'the job is complete'
         }
     }
 }
